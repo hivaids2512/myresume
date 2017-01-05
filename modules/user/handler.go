@@ -2,7 +2,6 @@ package user
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -13,17 +12,11 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		decoder := json.NewDecoder(r.Body)
 		var user User
-		err := decoder.Decode(&user)
-		if err != nil {
-			log.Error(err)
-		}
-		result, err := Register(user)
-		log.Info(result.Email)
-		if err != nil {
-			log.Error(err)
-		}
+		_ = decoder.Decode(&user)
+		res := Register(user)
+		jData, _ := json.Marshal(res)
 		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprintf(w, "Success!")
+		w.Write(jData)
 	case "PUT":
 		// Update an existing record.
 	case "DELETE":
@@ -31,7 +24,6 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	default:
 		// Give an error message.
 	}
-
 }
 
 func loginHandlder(w http.ResponseWriter, r *http.Request) {
@@ -41,17 +33,11 @@ func loginHandlder(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		decoder := json.NewDecoder(r.Body)
 		var user User
-		err := decoder.Decode(&user)
-		if err != nil {
-			log.Error(err)
-		}
-		result, err := Login(user)
-		log.Info(result.Email)
-		if err != nil {
-			log.Error(err)
-		}
+		_ = decoder.Decode(&user)
+		res := Login(user)
+		jData, _ := json.Marshal(res)
 		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprintf(w, "Success!")
+		w.Write(jData)
 	case "PUT":
 		// Update an existing record.
 	case "DELETE":

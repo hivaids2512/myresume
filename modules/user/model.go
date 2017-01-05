@@ -5,3 +5,15 @@ type User struct {
 	Email    string `bson:"email"`
 	Password string `bson:"password"`
 }
+
+type LoginResponse struct {
+	User  User
+	Token string
+	Error error
+}
+
+type RegisterResponse struct {
+	User    User
+	Success bool
+	Error   error
+}

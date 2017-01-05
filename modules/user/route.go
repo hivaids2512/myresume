@@ -1,7 +1,6 @@
 package user
 
 import (
-	"../../components/auth"
 	"net/http"
 )
 

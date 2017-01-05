@@ -1,30 +1,29 @@
 package auth
 
 import (
-	"../../modules/user"
-	"gopkg.in/dgrijalva/jwt-go.v2"
+	//"gopkg.in/dgrijalva/jwt-go"
+	"github.com/dgrijalva/jwt-go"
+	"time"
 )
 
 var tokenEncodeString string = "something"
 
-func GenToken(user User) (token, err) {
-	token := jwt.New(jwt.SigningMethodHS256)
+func GenTokenV2() (string, error) {
+	mySigningKey := []byte("AllYourBase")
 
-	// set some claims
-	token.Claims["email"] = user.Email
-	token.Claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
+	// Create the Claims
+	claims := &jwt.StandardClaims{
+		ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
+		Issuer:    "test",
+	}
 
-	//Sign and get the complete encoded token as string
-	return (token.SignedString(tokenEncodeString))
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return (token.SignedString(mySigningKey))
 }
 
-func ParseToken(myToken string) bool {
-	token, err := jwt.Parse(myToken, func(token *jwt.Token) (interface{}, error) {
-		// Don't forget to validate the alg is what you expect:
-		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
-			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
-		}
-		return myLookupKey(token.Header["kid"]), nil
+func ParseToken(tokenString string) bool {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return []byte("AllYourBase"), nil
 	})
 
 	if err == nil && token.Valid {
