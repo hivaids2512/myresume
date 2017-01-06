@@ -2,6 +2,9 @@ package auth
 
 import (
 	//"gopkg.in/dgrijalva/jwt-go"
+	//"../../config/global"
+	"crypto/md5"
+	"encoding/hex"
 	"github.com/dgrijalva/jwt-go"
 	"time"
 )
@@ -31,4 +34,10 @@ func ParseToken(tokenString string) bool {
 	} else {
 		return false
 	}
+}
+
+func Hash(str string) string {
+	hasher := md5.New()
+	hasher.Write([]byte(str))
+	return hex.EncodeToString(hasher.Sum(nil))
 }

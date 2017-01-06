@@ -1,6 +1,7 @@
 package main
 
 import (
+	"./modules/resume"
 	"./modules/user"
 	"net/http"
 	"os"
@@ -8,6 +9,7 @@ import (
 
 func main() {
 	user.Gonow()
+	resume.Gonow()
 	var port string
 	if os.Getenv("PORT") != "" {
 		port = ":" + os.Getenv("PORT")

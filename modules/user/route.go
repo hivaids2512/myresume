@@ -1,10 +1,13 @@
 package user
 
 import (
+	"github.com/gorilla/mux"
 	"net/http"
 )
 
 func Gonow() {
-	http.HandleFunc("/users/register", registerHandler)
-	http.HandleFunc("/users/login", loginHandlder)
+	r := mux.NewRouter()
+	r.HandleFunc("/users/register", registerHandler)
+	r.HandleFunc("/users/login", loginHandlder)
+	http.Handle("/users/", r)
 }

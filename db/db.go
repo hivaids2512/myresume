@@ -2,7 +2,6 @@ package db
 
 import (
 	"../config/db"
-	"fmt"
 	"gopkg.in/mgo.v2"
 	"log"
 	"time"
@@ -27,7 +26,5 @@ func GetMongoSession() *mgo.Session {
 			log.Fatal("Failed to start the Mongo session")
 		}
 	}
-	fmt.Println(mgoSession)
-	fmt.Println("mgoSession")
 	return mgoSession.Clone()
 }

@@ -1,9 +1,13 @@
 package user
 
+import (
+	"gopkg.in/mgo.v2/bson"
+)
+
 type User struct {
-	Id       string `bson:"_id,omitempty"`
-	Email    string `bson:"email"`
-	Password string `bson:"password"`
+	Id       bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	Email    string        `bson:"email"`
+	Password string        `bson:"password"`
 }
 
 type LoginResponse struct {
