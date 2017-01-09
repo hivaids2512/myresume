@@ -10,3 +10,10 @@ type Resume struct {
 	Description string        `bson:"description"`
 	User        bson.ObjectId `json:"userId" bson:"userId,omitempty"`
 }
+
+type GeneralResponse struct {
+	Success bool
+	Error   error
+	Data    Resume
+	List    []Resume
+}
