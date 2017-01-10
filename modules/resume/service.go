@@ -33,7 +33,7 @@ func GetResumeById(id string) GeneralResponse {
 	session.SetMode(mgo.Monotonic, true)
 	collection := session.DB("myresume").C("resumes")
 	result := Resume{}
-	err := collection.Find(bson.M{"_id": id}).One(&result)
+	err := collection.Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&result)
 	res := GeneralResponse{}
 	if err != nil {
 		log.Error(err)
@@ -52,7 +52,7 @@ func DeleteResume(id string) GeneralResponse {
 	defer session.Close() // session must close at the end
 	session.SetMode(mgo.Monotonic, true)
 	collection := session.DB("myresume").C("resumes")
-	err := collection.Remove(bson.M{"_id": id})
+	err := collection.Remove(bson.M{"_id": bson.ObjectIdHex(id)})
 	res := GeneralResponse{}
 	if err != nil {
 		log.Error(err)

@@ -7,10 +7,10 @@ import (
 
 func Gonow() {
 	r := mux.NewRouter()
-	r.HandleFunc("/resumes/view/{id}", nil)
-	r.HandleFunc("/resumes/new", nil)
-	r.HandleFunc("/resumes/delete/{id}", nil)
-	r.HandleFunc("/resumes/update/{id}", nil)
-	r.HandleFunc("/resumes/list", nil)
+	r.HandleFunc("/resumes/view/{id}", viewResumeHandler)
+	r.HandleFunc("/resumes/new", addResumeHandler)
+	r.HandleFunc("/resumes/delete/{id}", deleteResumeHandler)
+	r.HandleFunc("/resumes/update/{id}", updateResumeHandler)
+	r.HandleFunc("/resumes/list", listResumeHandler)
 	http.Handle("/resumes/", r)
 }
