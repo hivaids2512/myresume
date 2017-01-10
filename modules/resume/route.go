@@ -1,6 +1,7 @@
 package resume
 
 import (
+	"../../components/auth"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -12,5 +13,5 @@ func Gonow() {
 	r.HandleFunc("/resumes/delete/{id}", deleteResumeHandler)
 	r.HandleFunc("/resumes/update/{id}", updateResumeHandler)
 	r.HandleFunc("/resumes/list", listResumeHandler)
-	http.Handle("/resumes/", r)
+	http.Handle("/resumes/", auth.ShowMeYouToken(r))
 }
