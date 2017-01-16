@@ -1,15 +1,18 @@
 package main
 
 import (
-	"./modules/resume"
-	"./modules/user"
+	"./modules/myresume/route"
+	"github.com/gorilla/mux"
 	"net/http"
 	"os"
 )
 
 func main() {
-	user.Gonow()
-	resume.Gonow()
+	r := mux.NewRouter()
+	route.InitResumeRoute(r)
+	route.InitUserRoute(r)
+	route.InitSectionRoute(r)
+	http.Handle("/", r)
 	var port string
 	if os.Getenv("PORT") != "" {
 		port = ":" + os.Getenv("PORT")

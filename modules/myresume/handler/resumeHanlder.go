@@ -1,20 +1,22 @@
-package resume
+package handler
 
 import (
+	"../model"
+	"../service"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
 )
 
-func addResumeHandler(w http.ResponseWriter, r *http.Request) {
+func AddResumeHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		// Serve the resource.
 	case "POST":
 		decoder := json.NewDecoder(r.Body)
-		var resume Resume
+		var resume model.Resume
 		_ = decoder.Decode(&resume)
-		res := AddResume(resume)
+		res := service.AddResume(resume)
 		jData, _ := json.Marshal(res)
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(jData)
@@ -27,7 +29,7 @@ func addResumeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func updateResumeHandler(w http.ResponseWriter, r *http.Request) {
+func UpdateResumeHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		// Serve the resource.
@@ -35,9 +37,9 @@ func updateResumeHandler(w http.ResponseWriter, r *http.Request) {
 
 	case "PUT":
 		decoder := json.NewDecoder(r.Body)
-		var resume Resume
+		var resume model.Resume
 		_ = decoder.Decode(&resume)
-		res := UpdateResume(resume)
+		res := service.UpdateResume(resume)
 		jData, _ := json.Marshal(res)
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(jData)
@@ -48,7 +50,7 @@ func updateResumeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func deleteResumeHandler(w http.ResponseWriter, r *http.Request) {
+func DeleteResumeHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		// Serve the resource.
@@ -59,7 +61,7 @@ func deleteResumeHandler(w http.ResponseWriter, r *http.Request) {
 	case "DELETE":
 		vars := mux.Vars(r)
 		id := vars["id"]
-		res := DeleteResume(id)
+		res := service.DeleteResume(id)
 		jData, _ := json.Marshal(res)
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(jData)
@@ -68,12 +70,12 @@ func deleteResumeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func viewResumeHandler(w http.ResponseWriter, r *http.Request) {
+func ViewResumeHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		vars := mux.Vars(r)
 		id := vars["id"]
-		res := GetResumeById(id)
+		res := service.GetResumeById(id)
 		jData, _ := json.Marshal(res)
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(jData)
@@ -88,10 +90,10 @@ func viewResumeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func listResumeHandler(w http.ResponseWriter, r *http.Request) {
+func ListResumeHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		res := GetResumeList()
+		res := service.GetResumeList()
 		jData, _ := json.Marshal(res)
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(jData)

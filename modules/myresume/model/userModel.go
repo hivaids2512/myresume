@@ -1,6 +1,7 @@
-package user
+package model
 
 import (
+	"./response"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -11,13 +12,12 @@ type User struct {
 }
 
 type LoginResponse struct {
-	User  User
-	Token string
-	Error error
+	Status response.Status
+	User   User
+	Token  string
 }
 
 type RegisterResponse struct {
-	User    User
-	Success bool
-	Error   error
+	Status response.Status
+	User   User
 }

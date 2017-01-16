@@ -1,48 +1,47 @@
-package user
+package service
 
 import (
-	"../../components/auth"
-	"../../config/global"
-	"../../db"
-	"github.com/op/go-logging"
+	"../../../components/auth"
+	"../../../config/global"
+	"../../../db"
+	"../model"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
-var log = logging.MustGetLogger("myresume")
-
-func Register(user User) RegisterResponse {
+func Register(user model.User) model.RegisterResponse {
 	var session = db.GetMongoSession()
 	defer session.Close() // session must close at the end
 	session.SetMode(mgo.Monotonic, true)
 	collection := session.DB("myresume").C("users")
 	user.Password = auth.Hash(user.Password + global.SALT)
 	err := collection.Insert(user)
-	res := RegisterResponse{}
+	res := model.RegisterResponse{}
 	if err != nil {
 		log.Error(err)
-		res.Error = err
-		res.Success = false
+		res.Status.Error = err
+		res.Status.Success = false
 	} else {
 		user.Password = "*********"
 		res.User = user
-		res.Error = err
-		res.Success = true
+		res.Status.Error = err
+		res.Status.Success = true
 	}
 	return res
 }
 
-func Login(user User) LoginResponse {
+func Login(user model.User) model.LoginResponse {
 	var session = db.GetMongoSession()
 	defer session.Close() // session must close at the end
 	session.SetMode(mgo.Monotonic, true)
 	collection := session.DB("myresume").C("users")
-	result := User{}
+	result := model.User{}
 	err := collection.Find(bson.M{"email": user.Email, "password": auth.Hash(user.Password + global.SALT)}).One(&result)
-	res := LoginResponse{}
+	res := model.LoginResponse{}
 	if err != nil {
 		log.Error(err)
-		res.Error = err
+		res.Status.Error = err
+		res.Status.Success = false
 	} else {
 		token, err1 := auth.GenTokenV2()
 		if err1 != nil {
@@ -51,7 +50,8 @@ func Login(user User) LoginResponse {
 		result.Password = "*********"
 		res.User = result
 		res.Token = token
-		res.Error = err
+		res.Status.Error = err
+		res.Status.Success = true
 	}
 	return res
 }
