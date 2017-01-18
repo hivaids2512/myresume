@@ -2,9 +2,11 @@ package service
 
 import (
 	"../../../components/auth"
+	"../../../components/validation"
 	"../../../config/global"
 	"../../../db"
 	"../model"
+	"fmt"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -36,6 +38,8 @@ func Login(user model.User) model.LoginResponse {
 	session.SetMode(mgo.Monotonic, true)
 	collection := session.DB("myresume").C("users")
 	result := model.User{}
+	a := validation.ValidateMe(result)
+	fmt.Println(a)
 	err := collection.Find(bson.M{"email": user.Email, "password": auth.Hash(user.Password + global.SALT)}).One(&result)
 	res := model.LoginResponse{}
 	if err != nil {

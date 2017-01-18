@@ -7,8 +7,8 @@ import (
 
 type User struct {
 	Id       bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Email    string        `bson:"email"`
-	Password string        `bson:"password"`
+	Email    string        `bson:"email" validate:"required"`
+	Password string        `bson:"password" validate:"required"`
 }
 
 type LoginResponse struct {
