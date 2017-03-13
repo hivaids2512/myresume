@@ -2,11 +2,13 @@ package auth
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
 func ShowMeYouToken(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(r.RequestURI)
 		token := ""
 		if r.Header["Access-Token"] != nil {
 			token = r.Header["Access-Token"][0]

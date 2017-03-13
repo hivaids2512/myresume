@@ -1,7 +1,8 @@
 package main
 
 import (
-	"./modules/myresume/route"
+	"./modules/lengkeng/route"
+	//	myResumeRoute "./modules/myresume/route"
 	"github.com/gorilla/mux"
 	"net/http"
 	"os"
@@ -9,10 +10,10 @@ import (
 
 func main() {
 	r := mux.NewRouter()
-	route.InitResumeRoute(r)
-	route.InitUserRoute(r)
-	route.InitSectionRoute(r)
-	http.Handle("/", r)
+	sub := r.PathPrefix("/api").Subrouter()
+	//myResumeRoute.InitResumeRoute(r, sub)
+	//myResumeRoute.InitUserRoute(r, sub)
+	route.InitLengKengUserRoute(r, sub)
 	var port string
 	if os.Getenv("PORT") != "" {
 		port = ":" + os.Getenv("PORT")
