@@ -12,5 +12,6 @@ func InitLengKengUserRoute(r *mux.Router, sub *mux.Router) {
 	sub.HandleFunc("/lengkeng/delete/{id}", handler.DeleteLengKengHandler)
 	sub.HandleFunc("/lengkeng/update/{id}", handler.UpdateLengKengHandler)
 	sub.HandleFunc("/lengkeng/list", handler.ListLengKengHandler)
+	sub.HandleFunc("/lengkeng/ping", handler.PingLengKengHandler)
 	http.Handle("/api/lengkeng/", r)
 }

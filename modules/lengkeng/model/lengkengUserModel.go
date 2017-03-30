@@ -8,7 +8,11 @@ import (
 type LengKengUser struct {
 	Id     bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	UserId string        `bson:"userId"`
-	Token  string        `bson:"description"`
+	Token  string        `bson:"token"`
+}
+
+type LengKengPing struct {
+	Id string
 }
 
 type DataResponse struct {
